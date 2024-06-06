@@ -14,7 +14,7 @@ namespace DashBoard.Controllers
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
 
