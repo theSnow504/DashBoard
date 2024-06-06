@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using DashBoard.Models;
 using System.Xml.XPath;
+using Newtonsoft.Json;
 
 namespace DashBoard.Controllers
 {
@@ -15,13 +16,13 @@ namespace DashBoard.Controllers
             return View();
         }
 
-
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
-            var user = _testContext.Users.Where(x=>x.UserName.Equals(username) && x.Password.Equals(password)).FirstOrDefault();
-            if(user!=null)
+            var user = _testContext.Users.Where(x => x.UserName.Equals(username) && x.Password.Equals(password)).FirstOrDefault();
+            if (user != null)
             {
+                TempData["User"] = JsonConvert.SerializeObject(user);
                 return RedirectToAction("Index", "Home");
             }
             return View();

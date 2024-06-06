@@ -1,5 +1,6 @@
 ﻿using DashBoard.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace DashBoard.Controllers
@@ -13,9 +14,14 @@ namespace DashBoard.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(List<User> users)
         {
-            return View();
+            if (TempData["User"] != null)
+            {
+                var user = JsonConvert.DeserializeObject<User>(TempData["User"].ToString());
+                return View(new List<User> { user });
+            }
+            return View(new List<User>());
         }
 
         public IActionResult Privacy()
