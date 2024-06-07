@@ -1,18 +1,13 @@
 ﻿using Dashboard.DataDto.User;
 using DashBoard.Models;
-
-using System.Xml.XPath;
-using System.ComponentModel;
-using Microsoft.EntityFrameworkCore;
-using DashBoard.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 
 namespace DashBoard.Controllers
 {
     public class AccountController : Controller
     {
+        TestContext _testContext = new TestContext();
 
         [HttpGet]
         public IActionResult Login()
@@ -23,32 +18,7 @@ namespace DashBoard.Controllers
         [HttpPost]
         public IActionResult Login(LoginDto login)
         {
-            if(HttpContext.Session.GetString("User")==null)
-            {
-                var getuser = _testContext.Users.Where(x => x.UserName.Equals(username) && x.Password.Equals(password)).FirstOrDefault();
-                var userClient = _testContext.UserClients.Where(x => x.IdUser.Equals(getuser.Id)).Select(x=>x.IdClient).ToList();
-                var getFbUser = from a in _testContext.Users
-                                join b in _testContext.UsersAccountFbs on a.Id equals b.IdUser
-                                join c in _testContext.AccountFbs on b.IdAccountFb equals c.Id
-                                where a.Id == getuser.Id
-                                select new AccountFbViewModel
-                                {
-                                    Id = c.Id,
-                                    FbUser =c.FbUser,
-                                    FbPassword =c.FbPassword,
-                                };
-                 getFbUser.ToList();
 
-                {
-                    HttpContext.Session.SetString("User",username.ToString());
-                    return RedirectToAction("Index", "Home");
-                }
-            }    
-            if (ModelState.IsValid)
-            {
-               
-                return RedirectToAction("Index", "Home");
-            }
             return View();
         }
 
@@ -74,11 +44,6 @@ namespace DashBoard.Controllers
 
         public IActionResult ChangePassword()
         {
-            if (password!=null && password==confirmpassword)
-            {
-                //var user = _testContext.Users.Where(x => x.UserName.Equals(username) && x.License.Equals(license)).FirstOrDefault();
-                //user.Password = password;
-            }
             return View();
         }
     }
