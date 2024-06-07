@@ -1,10 +1,16 @@
 ﻿using Dashboard.DataDto.User;
+using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DashBoard.Controllers
 {
     public class AccountController : Controller
-    {    
+    {
+        private readonly IUsersApiServices _userapiservice;
+        public AccountController( IUsersApiServices userapiservice)
+        {
+            _userapiservice = userapiservice;
+        }
         [HttpGet]
         public ActionResult Login()
         {
@@ -12,9 +18,14 @@ namespace DashBoard.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginDto login)
+        public IActionResult Login(string username,string password)
         {
-
+            var u = _userapiservice.GetUser(username, password);
+            if(u!=null)
+            {
+                return RedirectToAction("Index", "Home");
+            }    
+            else
             return View();
         }
 
