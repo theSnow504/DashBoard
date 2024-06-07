@@ -7,5 +7,6 @@ namespace DashBoard.Services.IService
     {
         ResponseBase<User?> Login(string userId);
         ResponseBase<User?> Login(string username, string password);
+        ResponseBase<User?> ForgotPassword(string username, string license);
     }
 }

@@ -15,7 +15,6 @@ namespace DashBoard.Controllers
         }
 
 
-
         [HttpGet]
         public ActionResult Login()
         {
@@ -63,29 +62,46 @@ namespace DashBoard.Controllers
         }
 
 
-        public IActionResult Logout()
+        public ActionResult Logout()
         {
+            HttpContext.Session.Clear();
+            string? userId = Request.Cookies["userId"];
+            if(userId != null)
+            {
+                CookieOptions options = new CookieOptions()
+                {
+                    Expires = DateTime.Now.AddDays(-1)
+                };
+                Response.Cookies.Append("userId", userId, options);
+            }
             return RedirectToAction("Login", "Account");
         }
 
         [HttpGet]
-        public IActionResult ForgotPassword()
+        public ActionResult ForgotPassword()
         {
             return View();
         }
 
-       /* [HttpPost]
-        public IActionResult ForgotPassword(string username, string license)
+        [HttpPost]
+        public ActionResult ForgotPassword(string username, string license)
         {
-            var user = _testContext.Users.Where(x => x.UserName.Equals(username) && x.License.Equals(license)).FirstOrDefault();
-            if (user != null)
+            ResponseBase<User?> response = _service.ForgotPassword(username, license);
+            if(response.Data == null)
             {
-                return RedirectToAction("ResetPassword", "Account");
+                if (response.Code == (int)HttpStatusCode.NotFound)
+                {
+                    ViewData["error"] = response.Message;
+                    return View();
+                }
+                ViewData["error"] = response.Message;
+                return View("/Views/Shared/Error.cshtml");
             }
-            return View();
-        }*/
+           
+            return Redirect("/Account/ResetPassword");
+        }
 
-        public IActionResult ResetPassword()
+        public ActionResult ResetPassword()
         {
             return View();
         }
