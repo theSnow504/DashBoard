@@ -1,0 +1,33 @@
+﻿@* @model List<AccountFb>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Basic Table</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tên khách hàng</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Số lượng client</th>
+                    <th>Gói cước</th>
+                    <th>Ngày kích hoạt</th>
+                    <th>Ngày đăng nhập</th>
+                    <th>Ngày hết hạn</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FbUser</td>
+                        <td>@item.FbProfileLink</td>
+                        <td>@item.DateLogin</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> *@
+
+<h1>Test facebook</h1>

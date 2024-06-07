@@ -1,16 +1,18 @@
-﻿using DashBoard.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Dashboard.DataDto.User;
 using DashBoard.Models;
+
 using System.Xml.XPath;
 using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
 using DashBoard.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
 
 namespace DashBoard.Controllers
 {
     public class AccountController : Controller
     {
-        TestContext _testContext = new TestContext();
 
         [HttpGet]
         public IActionResult Login()
@@ -18,9 +20,8 @@ namespace DashBoard.Controllers
             return View();
         }
 
-
         [HttpPost]
-        public IActionResult Login(string username, string password)
+        public IActionResult Login(LoginDto login)
         {
             if(HttpContext.Session.GetString("User")==null)
             {
@@ -43,9 +44,13 @@ namespace DashBoard.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }    
+            if (ModelState.IsValid)
+            {
+               
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
-
 
         public IActionResult Logout()
         {
@@ -63,15 +68,11 @@ namespace DashBoard.Controllers
         [HttpPost]
         public IActionResult ForgotPassword(string username, string license)
         {
-            var user = _testContext.Users.Where(x => x.UserName.Equals(username) && x.License.Equals(license)).FirstOrDefault();
-            if (user!=null) 
-            {
-                return RedirectToAction("ResetPassword", "Account");
-            }
-            return View();
+            return RedirectToAction("ResetPassword", "Account");
         }
 
-        public IActionResult ResetPassword(string password, string confirmpassword)
+
+        public IActionResult ChangePassword()
         {
             if (password!=null && password==confirmpassword)
             {
