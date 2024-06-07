@@ -1,17 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Dashboard.DataDto.User;
+using Dashboard.Service.Api.Users;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DashBoard.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IUsersApiServices _userService;
+        public HomeController(IUsersApiServices userService)
         {
-            return View();
+            _userService = userService;
         }
 
-        public IActionResult LoadFacebookPartial()
+        public IActionResult Index(UserLoginDto user)
         {
-            return PartialView("_AccountFacebook");
+            return View(user);
+        }
+
+        public IActionResult LoadFacebookPartial(int iduser)
+        {
+            var accounts = _userService.GetAccountFbEverLogin(iduser);
+            return PartialView("_AccountFacebook", accounts);
         }
 
         public IActionResult LoadTiktokPartial()

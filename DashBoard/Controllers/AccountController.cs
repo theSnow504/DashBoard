@@ -1,4 +1,4 @@
-﻿using Dashboard.DataDto.User;
+﻿using Dashboard.Common.Configuration;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,11 +6,12 @@ namespace DashBoard.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUsersApiServices _userapiservice;
-        public AccountController( IUsersApiServices userapiservice)
+        private readonly IUsersApiServices _userService;
+        public AccountController(IUsersApiServices userService)
         {
-            _userapiservice = userapiservice;
+            _userService = userService;
         }
+
         [HttpGet]
         public ActionResult Login()
         {
@@ -18,20 +19,20 @@ namespace DashBoard.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string username,string password)
+        public IActionResult Login(string username, string password)
         {
-            var u = _userapiservice.GetUser(username, password);
-            if(u!=null)
+            var user = _userService.GetUser(username, password);
+            if (user != null)
             {
-                return RedirectToAction("Index", "Home");
-            }    
+                return RedirectToAction("Index", "Home", user.Data);
+            }
             else
-            return View();
+                return View();
         }
 
         public IActionResult Logout()
         {
-             return View();
+            return View();
         }
 
         [HttpGet]
@@ -47,9 +48,9 @@ namespace DashBoard.Controllers
         }
 
 
-        public IActionResult ChangePassword() 
-        { 
-            return View(); 
+        public IActionResult ChangePassword()
+        {
+            return View();
         }
 
         public ActionResult ResetPassword()
