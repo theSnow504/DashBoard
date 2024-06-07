@@ -1,4 +1,6 @@
-using DashBoard.Models;
+using DashBoard.Services.IService;
+using DashBoard.Services.Service;
+using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace DashBoard
@@ -11,9 +13,12 @@ namespace DashBoard
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSession();
             // add db context
             string connect = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(connect));
+            // ---------------------------- register service -----------------------------------
+            builder.Services.AddScoped<IAccountService, AccountService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -28,7 +33,7 @@ namespace DashBoard
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.MapControllerRoute(

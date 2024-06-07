@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DashBoard.Models
+namespace DataAccess.Entity
 {
     public partial class Topic
     {
