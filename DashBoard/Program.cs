@@ -1,7 +1,11 @@
+
+using Dashboard.Common.Configuration;
+var builder = WebApplication.CreateBuilder(args);
 using DashBoard.Services.IService;
 using DashBoard.Services.Service;
 using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
@@ -50,6 +54,10 @@ if (!app.Environment.IsDevelopment())
         }
     }
 app.UseRouting();
+var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: false)
+            .Build();
+AppConfigs.LoadAll(config);
 
 app.UseAuthorization();
 app.UseSession();
