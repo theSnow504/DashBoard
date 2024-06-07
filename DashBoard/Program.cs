@@ -1,9 +1,17 @@
 using Dashboard.Common.Configuration;
+using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.Intrinsics.X86;
+using Dashboard.Service.Api.Users;
+using DashBoard.Controllers;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddTransient<IUsersApiServices, UsersApiServices>();
+
 
 var app = builder.Build();
 
@@ -22,12 +30,27 @@ var config = new ConfigurationBuilder()
             .Build();
 AppConfigs.LoadAll(config);
 
+//var services = new ServiceCollection();
+//services.AddScoped<HomeController>();
+//ConfigureServices(services);
+//ServiceProvider serviceProvider = services.BuildServiceProvider();
+//var form1 = serviceProvider.GetRequiredService<HomeController>();
+////Application.Run(form1);
+
+// static void ConfigureServices(ServiceCollection services)
+//{
+//    services.AddLogging(configure => configure.AddConsole())
+//            .AddScoped<IUsersApiServices, UsersApiServices>();
+//}
+
+
+
 app.UseRouting();
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();
