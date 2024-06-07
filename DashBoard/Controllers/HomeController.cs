@@ -1,18 +1,9 @@
-﻿using DashBoard.Models;
-using Microsoft.AspNetCore.Mvc;
-using Dashboard.DataDto.ViewModels;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace DashBoard.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        TestContext _testContext = new TestContext();
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
             return View();
@@ -34,8 +25,7 @@ namespace DashBoard.Controllers
         }
         public IActionResult LoadClientPartial()
         {
-            var userClients = "";
-            return PartialView("_AccountClient", userClients);
+            return PartialView("_AccountClient");
         }
     }
 }
