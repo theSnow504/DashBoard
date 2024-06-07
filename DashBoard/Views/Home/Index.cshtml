@@ -1,5 +1,4 @@
-﻿@model List<User>
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -200,37 +199,35 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../../pages/icons/mdi.html">
+                        <a class="nav-link" href="#" id="loadFacebook">
                             <span class="menu-title">Tài khoản facebook</span>
                             <i class="mdi mdi-account-multiple-outline menu-icon"></i>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../../pages/icons/mdi.html">
+                        <a class="nav-link" href="#" id="loadYoutube">
+                            <span class="menu-title">Tài khoản youtube</span>
+                            <i class="mdi mdi-contacts menu-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="loadTiktok">
                             <span class="menu-title">Tài khoản tiktok</span>
                             <i class="mdi mdi-contacts menu-icon"></i>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../../pages/icons/mdi.html">
-                            <span class="menu-title">Tài khoản tiktok</span>
-                            <i class="mdi mdi-contacts menu-icon"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../../pages/icons/mdi.html">
+                        <a class="nav-link" href="#" id="loadClient">
                             <span class="menu-title">Danh sách khách hàng</span>
                             <i class="mdi mdi-account menu-icon"></i>
                         </a>
                     </li>
-                  
-                   
                 </ul>
             </nav>
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
-                    <partial name="_AccountFacebook" />
+                    
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:../../partials/_footer.html -->
@@ -260,3 +257,8 @@
     <!-- End custom js for this page -->
 </body>
 </html>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/nav.js"></script>
+}

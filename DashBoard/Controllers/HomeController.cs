@@ -34,5 +34,25 @@ namespace DashBoard.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult LoadFacebookPartial()
+        {
+            return PartialView("_AccountFacebook");
+        }
+
+        public IActionResult LoadTiktokPartial()
+        {
+            return PartialView("_AccountTiktok");
+        }
+
+        public IActionResult LoadYoutubePartial()
+        {
+            return PartialView("_AccountYoutube");
+        }
+
+        public IActionResult LoadClientPartial()
+        {
+            return PartialView("_AccountClient");
+        }
     }
 }
