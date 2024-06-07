@@ -1,3 +1,5 @@
+using Dashboard.Common.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,6 +19,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: false)
+            .Build();
+AppConfigs.LoadAll(config);
 
 app.UseAuthorization();
 app.UseSession();
