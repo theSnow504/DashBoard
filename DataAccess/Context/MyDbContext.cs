@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DataAccess.Entity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace DashBoard.Models
+namespace DataAccess.Context
 {
-    public partial class TestContext : DbContext
+    public partial class MyDbContext : DbContext
     {
-        public TestContext()
+        public MyDbContext()
         {
         }
 
-        public TestContext(DbContextOptions<TestContext> options)
+        public MyDbContext(DbContextOptions<MyDbContext> options)
             : base(options)
         {
         }
 
         public virtual DbSet<AccountFb> AccountFbs { get; set; } = null!;
-        public virtual DbSet<Action> Actions { get; set; } = null!;
+        public virtual DbSet<Entity.Action> Actions { get; set; } = null!;
         public virtual DbSet<ActionType> ActionTypes { get; set; } = null!;
         public virtual DbSet<ClassDatum> ClassData { get; set; } = null!;
         public virtual DbSet<ClientCustomer> ClientCustomers { get; set; } = null!;
@@ -39,15 +37,6 @@ namespace DashBoard.Models
         public virtual DbSet<UserClient> UserClients { get; set; } = null!;
         public virtual DbSet<UsersAccountFb> UsersAccountFbs { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=210.245.84.117,15974;User=nhadat24h2023;Password=Nhadat24h@1234567788;Database=Test;");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccountFb>(entity =>
@@ -67,7 +56,7 @@ namespace DashBoard.Models
                 entity.Property(e => e.KeySearch).HasMaxLength(50);
             });
 
-            modelBuilder.Entity<Action>(entity =>
+            modelBuilder.Entity<Entity.Action>(entity =>
             {
                 entity.ToTable("Action");
 

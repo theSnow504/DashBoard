@@ -44,7 +44,6 @@ namespace DashBoard.Controllers
         {
             return PartialView("_AccountYoutube");
         }
-
         public IActionResult LoadClientPartial()
         {
             var session = HttpContext.Session.GetInt32("User");
