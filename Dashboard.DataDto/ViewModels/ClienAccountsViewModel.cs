@@ -1,6 +1,4 @@
-﻿
-
-namespace Dashboard.DataDto.ViewModels
+﻿namespace Dashboard.DataDto.ViewModels
 {
     public class ClienAccountsViewModel
     {
