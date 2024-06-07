@@ -1,5 +1,6 @@
 ﻿using Dashboard.Common;
 using Dashboard.DataDto.User;
+using System.ComponentModel;
 
 
 namespace Dashboard.Service.Api.Users
@@ -69,9 +70,11 @@ namespace Dashboard.Service.Api.Users
             throw new NotImplementedException();
         }
 
-        public ResponseBase<UserLoginDto> CheckUser(string username, string passWord)
+        public ResponseBase<UserLoginDto> GetUser(string userName, string passWord)
         {
-            throw new NotImplementedException();
+            var response = Get<UserLoginDto>("user/userlogin"
+                , new KeyValuePair<string, object>("userName", userName), new KeyValuePair<string, object>("passWord", passWord));
+            return response;
         }
     }
 }

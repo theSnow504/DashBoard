@@ -10,7 +10,7 @@ namespace Dashboard.Service.Api.Users
         public ResponseBase<LoginDto> CheckLicenseUser(string userName, string license);
         public ResponseBase<List<AccountDto>> GetAccountEverLogin(int idUser);
         public ResponseBase<List<AccountFbDto>> GetAccountFbEverLogin(int idUser);
-        public ResponseBase<UserLoginDto> CheckUser(string username, string passWord);
+        public ResponseBase<UserLoginDto> GetUser(string userName, string passWord);
 
     }
 }

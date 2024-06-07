@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DashBoard.Controllers
 {
     public class AccountController : Controller
-    {
+    {    
         [HttpGet]
         public ActionResult Login()
         {
@@ -20,7 +20,7 @@ namespace DashBoard.Controllers
 
         public IActionResult Logout()
         {
-            return View();
+             return View();
         }
 
         [HttpGet]
@@ -36,9 +36,9 @@ namespace DashBoard.Controllers
         }
 
 
-        public IActionResult ChangePassword()
-        {
-            return View();
+        public IActionResult ChangePassword() 
+        { 
+            return View(); 
         }
 
         public ActionResult ResetPassword()
