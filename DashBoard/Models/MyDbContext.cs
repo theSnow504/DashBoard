@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DashBoard.Models
 {
-    public partial class TestContext : DbContext
+    public partial class MyDbContext : DbContext
     {
-        public TestContext()
+        public MyDbContext()
         {
         }
 
-        public TestContext(DbContextOptions<TestContext> options)
+        public MyDbContext(DbContextOptions<MyDbContext> options)
             : base(options)
         {
         }

@@ -1,13 +1,11 @@
 ﻿using DashBoard.Models;
 using Microsoft.AspNetCore.Mvc;
-using DashBoard.Models;
-using System.Xml.XPath;
 
 namespace DashBoard.Controllers
 {
     public class AccountController : Controller
     {
-        TestContext _testContext = new TestContext();
+        MyDbContext _testContext = new MyDbContext();
 
         [HttpGet]
         public IActionResult Login()
@@ -19,8 +17,8 @@ namespace DashBoard.Controllers
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
-            var user = _testContext.Users.Where(x=>x.UserName.Equals(username) && x.Password.Equals(password)).FirstOrDefault();
-            if(user!=null)
+            var user = _testContext.Users.Where(x => x.UserName.Equals(username) && x.Password.Equals(password)).FirstOrDefault();
+            if (user != null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -43,7 +41,7 @@ namespace DashBoard.Controllers
         public IActionResult ForgotPassword(string username, string license)
         {
             var user = _testContext.Users.Where(x => x.UserName.Equals(username) && x.License.Equals(license)).FirstOrDefault();
-            if (user!=null) 
+            if (user != null)
             {
                 return RedirectToAction("ResetPassword", "Account");
             }
