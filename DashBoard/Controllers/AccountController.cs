@@ -1,40 +1,44 @@
-﻿using Dashboard.DataDto.User;
-using DashBoard.Models;
+﻿using Dashboard.Common;
+using Dashboard.DataDto.User;
+using Dashboard.Service.Api.Users;
+using DashBoard.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DashBoard.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IAccountService _service;
-        public AccountController(IAccountService service)
+        private readonly IAccountService _accountservice;
+        private readonly IUsersApiServices _userapiservice;
+        public AccountController(IAccountService accountservice, IUsersApiServices userapiservice)
         {
-            _service = service;
+            _accountservice = accountservice;
+            _userapiservice = userapiservice;
         }
 
 
-        [HttpGet]
-        public ActionResult Login()
-        {
-            string? userId = Request.Cookies["userId"];
-            if (userId == null) 
-            {
-                return View();
-            }
-            ResponseBase<User?> response = _service.Login(userId);
-            if (response.Data == null)
-            {
-                ViewData["error"] = response.Message;
-                return View("/Views/Shared/Error.cshtml");
-            }
-            HttpContext.Session.SetInt32("userId", response.Data.Id);
-            return Redirect("/Home/Index");
-        }
+        //[HttpGet]
+        //public ActionResult Login()
+        //{
+        //    string? userId = Request.Cookies["userId"];
+        //    if (userId == null) 
+        //    {
+        //        return View();
+        //    }
+        //    ResponseBase<User?> response = _service.Login(userId);
+        //    if (response.Data == null)
+        //    {
+        //        ViewData["error"] = response.Message;
+        //        return View("/Views/Shared/Error.cshtml");
+        //    }
+        //    HttpContext.Session.SetInt32("userId", response.Data.Id);
+        //    return Redirect("/Home/Index");
+        //}
 
         [HttpPost]
-        public IActionResult Login(LoginDto login)
+        public IActionResult Login(string username,string password)
         {
-
+            var u = _userapiservice.GetUser(username, password);
             return View();
         }
 
@@ -58,25 +62,25 @@ namespace DashBoard.Controllers
         }
 
 
-        public IActionResult ChangePassword()
-            ResponseBase<User?> response = _service.ForgotPassword(username, license);
-            if(response.Data == null)
-            {
-                if (response.Code == (int)HttpStatusCode.NotFound)
-                {
-                    ViewData["error"] = response.Message;
-                    return View();
-                }
-                ViewData["error"] = response.Message;
-                return View("/Views/Shared/Error.cshtml");
-            }
+        //public IActionResult ChangePassword()
+        //    ResponseBase<User?> response = _service.ForgotPassword(username, license);
+        //    if(response.Data == null)
+        //    {
+        //        if (response.Code == (int)HttpStatusCode.NotFound)
+        //        {
+        //            ViewData["error"] = response.Message;
+        //            return View();
+        //        }
+        //        ViewData["error"] = response.Message;
+        //        return View("/Views/Shared/Error.cshtml");
+        //    }
            
-            return Redirect("/Account/ResetPassword");
-        }
+        //    return Redirect("/Account/ResetPassword");
+        //}
 
-        public ActionResult ResetPassword()
-        {
-            return View();
-        }
+        //public ActionResult ResetPassword()
+        //{
+        //    return View();
+        //}
     }
 }

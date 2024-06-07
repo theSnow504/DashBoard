@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Dashboard.Common\Dashboard.Common.csproj" />
     <ProjectReference Include="..\Dashboard.DataDto\Dashboard.DataDto.csproj" />
+    <ProjectReference Include="..\Dashboard.Service.Api\Dashboard.Service.Api.csproj" />
   </ItemGroup>
 
 </Project>
