@@ -3,6 +3,7 @@
         $.ajax({
             url: `/Home/${viewName}`,
             type: 'GET',
+            data: { iduser: iduser },
             success: function (data) {
                 $('.content-wrapper').html(data);
             }
