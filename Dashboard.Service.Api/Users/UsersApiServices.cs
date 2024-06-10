@@ -84,6 +84,7 @@ namespace Dashboard.Service.Api.Users
         public ResponseBase<UserLoginDto> ForgotPassword(string userName, string License)
         {
             var response = Get<UserLoginDto>("user/forgot-password"
+
                 , new KeyValuePair<string, object>("userName", userName), new KeyValuePair<string, object>("License", License));
             return response;
         }

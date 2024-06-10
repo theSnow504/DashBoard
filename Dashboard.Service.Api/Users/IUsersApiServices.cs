@@ -14,5 +14,6 @@ namespace Dashboard.Service.Api.Users
         public ResponseBase<bool> ChangePassword(ChangePasswordDto passwordDto);
         public ResponseBase<UserLoginDto> CheckExitUser(string userName);
         public ResponseBase<UserLoginDto> ForgotPassword(string userName, string License);
+
     }
 }
