@@ -26,4 +26,12 @@ namespace Dashboard.DataDto.User
         public int Status { get; set; }
         public int IdUser { get; set; }
     }
+
+    public class ChangePasswordDto
+    {
+        public int IdUser { get; set; }
+        public string CurrentPassword { get; set; } = null!;
+        public string NewPassword { get; set; } = null!;
+        public string ConfirmPassword { get; set; } = null!;
+    }
 }
