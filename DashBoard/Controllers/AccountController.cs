@@ -2,6 +2,7 @@
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Reflection.Metadata;
 
 namespace DashBoard.Controllers
 {
@@ -32,8 +33,13 @@ namespace DashBoard.Controllers
             if (cookieValue != null)
             {
                 count = int.Parse(cookieValue);
+                if(count>=5)
+                {
+                    _notyf.Error("Tài khoản này tạm thời bị khoá");
+                    return View();
+                }    
             }
-
+            
             if (check.Data==null)
             {
                 _notyf.Error("Sai tài khoản");
@@ -41,14 +47,14 @@ namespace DashBoard.Controllers
             }
             if(check.Data!=null && user.Data==null)
             {
-                _notyf.Error("Tài khoản đúng mật khẩu sai");
+                _notyf.Error("Mật khẩu không chính xác");
                 count++;
                 //HttpContext.Session.SetInt32(username, count);
                 Response.Cookies.Append(username, count.ToString(), new CookieOptions
                 {
-                    Expires = DateTimeOffset.UtcNow.AddDays(1) // Thời gian tồn tại của cookie, có thể thay đổi tùy theo nhu cầu
+                    Expires = DateTimeOffset.UtcNow.AddHours(1) // Thời gian tồn tại của cookie, có thể thay đổi tùy theo nhu cầu
                 });
-                if (count<=4)
+                if (count<5)
                 {
                     _notyf.Error("Bạn đã nhập sai "+count+" lần, còn lại "+(5-count)+" lần thử");
                     return View();
@@ -72,7 +78,7 @@ namespace DashBoard.Controllers
 
         public IActionResult Logout()
         {
-            return View();
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpGet]
