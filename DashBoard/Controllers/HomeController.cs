@@ -1,17 +1,33 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Dashboard.DataDto.User;
+using Dashboard.Service.Api.Users;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DashBoard.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IUsersApiServices _userService;
+        public HomeController(IUsersApiServices userService)
+        {
+            _userService = userService;
+        }
+
         public IActionResult Index()
         {
+            var userDataJson = HttpContext.Session.GetString("User");
+            if (userDataJson != null)
+            {
+                var userData = JsonConvert.DeserializeObject<UserLoginDto>(userDataJson);
+                return View(userData);
+            }
             return View();
         }
 
-        public IActionResult LoadFacebookPartial()
+        public IActionResult LoadFacebookPartial(int iduser)
         {
-            return PartialView("_AccountFacebook");
+            var accounts = _userService.GetAccountFbEverLogin(iduser);
+            return PartialView("_AccountFacebook", accounts.Data);
         }
 
         public IActionResult LoadTiktokPartial()
@@ -23,9 +39,10 @@ namespace DashBoard.Controllers
         {
             return PartialView("_AccountYoutube");
         }
-        public IActionResult LoadClientPartial()
+        public IActionResult LoadClientPartial(int iduser)
         {
-            return PartialView("_AccountClient");
+            var accounts = _userService.GetAccountEverLogin(iduser);
+            return PartialView("_AccountClient", accounts.Data);
         }
     }
 }

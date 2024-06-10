@@ -1,9 +1,5 @@
 using Dashboard.Common.Configuration;
-using static System.Net.Mime.MediaTypeNames;
-using System.Runtime.Intrinsics.X86;
 using Dashboard.Service.Api.Users;
-using DashBoard.Controllers;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +8,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IUsersApiServices, UsersApiServices>();
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -30,22 +28,9 @@ var config = new ConfigurationBuilder()
             .Build();
 AppConfigs.LoadAll(config);
 
-//var services = new ServiceCollection();
-//services.AddScoped<HomeController>();
-//ConfigureServices(services);
-//ServiceProvider serviceProvider = services.BuildServiceProvider();
-//var form1 = serviceProvider.GetRequiredService<HomeController>();
-////Application.Run(form1);
-
-// static void ConfigureServices(ServiceCollection services)
-//{
-//    services.AddLogging(configure => configure.AddConsole())
-//            .AddScoped<IUsersApiServices, UsersApiServices>();
-//}
-
-
-
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 
