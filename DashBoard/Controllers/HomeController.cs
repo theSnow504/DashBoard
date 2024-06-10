@@ -1,6 +1,7 @@
 ﻿using Dashboard.DataDto.User;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DashBoard.Controllers
 {
@@ -12,15 +13,21 @@ namespace DashBoard.Controllers
             _userService = userService;
         }
 
-        public IActionResult Index(UserLoginDto user)
+        public IActionResult Index()
         {
-            return View(user);
+            var userDataJson = HttpContext.Session.GetString("User");
+            if (userDataJson != null)
+            {
+                var userData = JsonConvert.DeserializeObject<UserLoginDto>(userDataJson);
+                return View(userData);
+            }
+            return View();
         }
 
         public IActionResult LoadFacebookPartial(int iduser)
         {
             var accounts = _userService.GetAccountFbEverLogin(iduser);
-            return PartialView("_AccountFacebook", accounts);
+            return PartialView("_AccountFacebook", accounts.Data);
         }
 
         public IActionResult LoadTiktokPartial()

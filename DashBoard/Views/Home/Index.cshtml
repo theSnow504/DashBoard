@@ -38,7 +38,7 @@
                             <div class="input-group-prepend bg-transparent">
                                 <i class="input-group-text border-0 mdi mdi-magnify"></i>
                             </div>
-                            <input type="text" class="form-control bg-transparent border-0" placeholder="Search projects">
+                            <input type="text" class="form-control bg-transparent border-0" placeholder="Tìm kiếm">
                         </div>
                     </form>
                 </div>
@@ -50,7 +50,7 @@
                                 <span class="availability-status online"></span>
                             </div>
                             <div class="nav-profile-text">
-                                <p class="mb-1 text-black">David Greymaax</p>
+                                <p class="mb-1 text-black">@Model.UserName</p>
                             </div>
                         </a>
                         <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
@@ -59,7 +59,7 @@
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">
-                                <i class="mdi mdi-logout me-2 text-primary"></i> Signout
+                                <i class="mdi mdi-logout me-2 text-primary"></i> Đăng xuất
                             </a>
                         </div>
                     </li>
@@ -185,15 +185,14 @@
                                 <!--change to offline or busy as needed-->
                             </div>
                             <div class="nav-profile-text d-flex flex-column">
-                                <span class="font-weight-bold mb-2">David Grey. H</span>
-                                <span class="text-secondary text-small">Project Manager</span>
+                                <span class="font-weight-bold mb-2">@Model.UserName</span>
+                                <span class="text-secondary text-small">Người quản trị</span>
                             </div>
                             <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
                         </a>
                     </li>
 
                     <!-- NAVBAR -->
-                    <p>@Model.Id</p>
                     <li class="nav-item">
                         <a class="nav-link" href="~/Home/Index">
                             <span class="menu-title">Dashboard</span>

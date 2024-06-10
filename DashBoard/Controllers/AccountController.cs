@@ -1,6 +1,6 @@
-﻿using Dashboard.Common.Configuration;
-using Dashboard.Service.Api.Users;
+﻿using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DashBoard.Controllers
 {
@@ -24,7 +24,8 @@ namespace DashBoard.Controllers
             var user = _userService.GetUser(username, password);
             if (user != null)
             {
-                return RedirectToAction("Index", "Home", user.Data);
+                HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user.Data));
+                return RedirectToAction("Index", "Home");
             }
             else
                 return View();
@@ -46,7 +47,6 @@ namespace DashBoard.Controllers
         {
             return RedirectToAction("ResetPassword", "Account");
         }
-
 
         public IActionResult ChangePassword()
         {
