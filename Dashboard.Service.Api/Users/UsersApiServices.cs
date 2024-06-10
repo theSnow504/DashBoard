@@ -60,12 +60,6 @@ namespace Dashboard.Service.Api.Users
             throw new NotImplementedException();
         }
 
-        ResponseBase<List<AccountDto>> IUsersApiServices.GetAccountEverLogin(int idUser)
-        {
-            throw new NotImplementedException();
-        }
-
-
         public ResponseBase<UserLoginDto> GetUser(string userName, string passWord)
         {
             var response = Get<UserLoginDto>("user/userlogin"

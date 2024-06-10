@@ -42,7 +42,7 @@ namespace DashBoard.Controllers
         public IActionResult LoadClientPartial(int iduser)
         {
             var accounts = _userService.GetAccountEverLogin(iduser);
-            return PartialView("_AccountClient");
+            return PartialView("_AccountClient", accounts.Data);
         }
     }
 }
