@@ -66,5 +66,19 @@ namespace Dashboard.Service.Api.Users
                 , new KeyValuePair<string, object>("userName", userName), new KeyValuePair<string, object>("passWord", passWord));
             return response;
         }
+
+        public ResponseBase<bool> ChangePassword(ChangePasswordDto passwordDto)
+        {
+            var response = Put<ChangePasswordDto, bool>("user/change-password"
+                , passwordDto);
+            return response;
+        }
+
+        public ResponseBase<UserLoginDto> CheckExitUser(string userName)
+        {
+            var response = Get<UserLoginDto>("user/checkExitUser"
+                , new KeyValuePair<string, object>("userName", userName));
+            return response;
+        }
     }
 }
