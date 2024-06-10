@@ -24,18 +24,50 @@ namespace DashBoard.Controllers
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
+            var check = _userService.CheckExitUser(username);
             var user = _userService.GetUser(username, password);
+            var name = username;
+            int count = 0;
+            var cookieValue = Request.Cookies[username];
+            if (cookieValue != null)
+            {
+                count = int.Parse(cookieValue);
+            }
+
+            if (check.Data==null)
+            {
+                _notyf.Error("Sai tài khoản");
+                return View();
+            }
+            if(check.Data!=null && user.Data==null)
+            {
+                _notyf.Error("Tài khoản đúng mật khẩu sai");
+                count++;
+                //HttpContext.Session.SetInt32(username, count);
+                Response.Cookies.Append(username, count.ToString(), new CookieOptions
+                {
+                    Expires = DateTimeOffset.UtcNow.AddDays(1) // Thời gian tồn tại của cookie, có thể thay đổi tùy theo nhu cầu
+                });
+                if (count<=4)
+                {
+                    _notyf.Error("Bạn đã nhập sai "+count+" lần, còn lại "+(5-count)+" lần thử");
+                    return View();
+                }
+                else
+                {
+                    _notyf.Error("Nhập sai quá số lần quy định, vui lòng thử lại sau");
+                    return View();
+                }    
+            }
             if (user.Data != null)
             {
                 HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user.Data));
+                //HttpContext.Session.SetInt32(username, 0);
+                Response.Cookies.Delete(username);
                 return RedirectToAction("Index", "Home");
             }
             else
-            {
-                _notyf.Error("Sai tài khoản hoặc mật khẩu");
                 return View();
-            }
-                
         }
 
         public IActionResult Logout()

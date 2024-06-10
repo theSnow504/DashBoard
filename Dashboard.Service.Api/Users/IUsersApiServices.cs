@@ -11,6 +11,6 @@ namespace Dashboard.Service.Api.Users
         public ResponseBase<List<AccountDto>> GetAccountEverLogin(int idUser);
         public ResponseBase<List<AccountFbDto>> GetAccountFbEverLogin(int idUser);
         public ResponseBase<UserLoginDto> GetUser(string userName, string passWord);
-
+        public ResponseBase<UserLoginDto> CheckExitUser(string userName);
     }
 }
