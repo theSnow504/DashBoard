@@ -1,4 +1,6 @@
-﻿@* @model List<AccountFb>
+﻿@using Dashboard.DataDto.User
+
+@model List<AccountDto>
 
 <div class="card">
     <div class="card-body">
@@ -6,28 +8,21 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Tên khách hàng</th>
-                    <th>Email</th>
-                    <th>Số điện thoại</th>
-                    <th>Số lượng client</th>
-                    <th>Gói cước</th>
-                    <th>Ngày kích hoạt</th>
-                    <th>Ngày đăng nhập</th>
-                    <th>Ngày hết hạn</th>
+                    <th>Tên tài khoản</th>
+                    <th>Mật khẩu</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.FbUser</td>
-                        <td>@item.FbProfileLink</td>
-                        <td>@item.DateLogin</td>
+                        <td>@item.UserName</td>
+                        <td>@item.Password</td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-</div> *@
+</div>
 
 <h1>Test client</h1>

@@ -32,8 +32,9 @@ namespace DashBoard.Controllers
         {
             return PartialView("_AccountYoutube");
         }
-        public IActionResult LoadClientPartial()
+        public IActionResult LoadClientPartial(int iduser)
         {
+            var accounts = _userService.GetAccountEverLogin(iduser);
             return PartialView("_AccountClient");
         }
     }
