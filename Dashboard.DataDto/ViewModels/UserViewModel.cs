@@ -1,7 +1,12 @@
-﻿
-namespace Dashboard.DataDto.User
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Dashboard.DataDto.ViewModels
 {
-    public class UserLoginDto
+    public class UserViewModel
     {
         public int Id { get; set; }
 
@@ -18,12 +23,5 @@ namespace Dashboard.DataDto.User
         public string? License { get; set; }
 
         public DateTime? ExpiryDate { get; set; }
-    }
-
-    public class LoginDto
-    {
-        public string Token { get; set; }
-        public int Status { get; set; }
-        public int IdUser { get; set; }
     }
 }
