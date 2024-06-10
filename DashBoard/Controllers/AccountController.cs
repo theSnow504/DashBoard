@@ -118,6 +118,7 @@ namespace DashBoard.Controllers
             if (userData != null) 
             { 
                 passwordDto.IdUser = userData.Id;
+                passwordDto.CurrentPassword = userData.Password;
             }
 
             if (passwordDto.CurrentPassword == null || passwordDto.NewPassword == null || passwordDto.ConfirmPassword == null)
