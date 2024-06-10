@@ -95,7 +95,7 @@ namespace DashBoard.Controllers
             var user = _userService.ForgotPassword(username, license);
             if (user != null)
             {
-                HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user.Data));
+                HttpContext.Session.SetInt32("IdUser", user.Data.Id);
 
                 return RedirectToAction("ResetPassword", "Account");
             }
@@ -116,12 +116,12 @@ namespace DashBoard.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordDto passwordDto)
         {
-            var userDataJson = HttpContext.Session.GetString("User");
-            var userData = JsonConvert.DeserializeObject<UserLoginDto>(userDataJson);
+            var id = HttpContext.Session.GetInt32("IdUser");
+            var userData = _userService.GetUserById(id);
             if (userData != null) 
             { 
-                passwordDto.IdUser = userData.Id;
-                passwordDto.CurrentPassword = userData.Password;
+                passwordDto.IdUser = userData.Data.Id;
+                passwordDto.CurrentPassword = userData.Data.Password;
             }
 
             if (passwordDto.CurrentPassword == null || passwordDto.NewPassword == null || passwordDto.ConfirmPassword == null)
@@ -160,13 +160,13 @@ namespace DashBoard.Controllers
         [HttpPost]
         public ActionResult ResetPassword(ChangePasswordDto passwordDto)
         {
-            var userDataJson = HttpContext.Session.GetString("User");
-            var userData = JsonConvert.DeserializeObject<UserLoginDto>(userDataJson);
+            var id = HttpContext.Session.GetInt32("IdUser");
+            var userData = _userService.GetUserById(id);
 
-            if (userData != null)
+            if (userData.Data != null)
             {
-                passwordDto.IdUser = userData.Id;
-                passwordDto.CurrentPassword = userData.Password;
+                passwordDto.IdUser = userData.Data.Id;
+                passwordDto.CurrentPassword = userData.Data.Password;
             }
 
             if (passwordDto.NewPassword == null || passwordDto.ConfirmPassword == null)
