@@ -93,7 +93,17 @@ namespace DashBoard.Controllers
         [HttpPost]
         public ActionResult ForgotPassword(string username, string license)
         {
-            return RedirectToAction("ResetPassword", "Account");
+            var check = _userService.ForgotPassword(username, license);
+            if(check.Data==true)
+            {
+                return RedirectToAction("ResetPassword", "Account");
+            }
+            else
+            {
+                _notyf.Error("Sai thông tin");
+                return View();
+            }
+            
         }
 
         [HttpGet]
