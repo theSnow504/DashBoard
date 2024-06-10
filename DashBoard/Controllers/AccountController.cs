@@ -48,7 +48,8 @@ namespace DashBoard.Controllers
             return RedirectToAction("ResetPassword", "Account");
         }
 
-        public IActionResult ChangePassword()
+        [HttpGet]
+        public ActionResult ChangePassword()
         {
             return View();
         }
