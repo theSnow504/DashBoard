@@ -68,7 +68,7 @@ namespace DashBoard.Controllers
             }
             if (user.Data != null)
             {
-                HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user.Data));
+                HttpContext.Session.SetInt32("IdUser", user.Data.Id);
                 _notyf.Success("Đăng nhập thành công");
                 Response.Cookies.Delete(username);
                 return RedirectToAction("Index", "Home");
