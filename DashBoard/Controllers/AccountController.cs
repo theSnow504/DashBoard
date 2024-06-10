@@ -1,4 +1,4 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Dashboard.DataDto.User;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;

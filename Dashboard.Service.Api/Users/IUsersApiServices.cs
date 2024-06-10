@@ -1,4 +1,4 @@
-﻿using Dashboard.Common;
+using Dashboard.Common;
 using Dashboard.DataDto.User;
 
 namespace Dashboard.Service.Api.Users
