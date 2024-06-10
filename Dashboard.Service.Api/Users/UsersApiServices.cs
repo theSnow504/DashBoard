@@ -81,11 +81,18 @@ namespace Dashboard.Service.Api.Users
             return response;
         }
 
-        public ResponseBase<UserLoginDto> ForgotPassword(string userName, string License)
+        public ResponseBase<UserLoginDto> ForgotPassword(string userName, string license)
         {
             var response = Get<UserLoginDto>("user/forgot-password"
+                , new KeyValuePair<string, object>("userName", userName), new KeyValuePair<string, object>("license", license));
+            return response;
+        }
 
-                , new KeyValuePair<string, object>("userName", userName), new KeyValuePair<string, object>("License", License));
+        public ResponseBase<UserLoginDto> GetUserById(int? idUser)
+        {
+            var response = Get<UserLoginDto>("user/get-user-by-id"
+
+                , new KeyValuePair<string, object>("idUser", idUser));
             return response;
         }
     }
