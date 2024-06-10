@@ -51,7 +51,6 @@ namespace DashBoard.Controllers
             {
                 _notyf.Error("Mật khẩu không chính xác");
                 count++;
-                //HttpContext.Session.SetInt32(username, count);
                 Response.Cookies.Append(username, count.ToString(), new CookieOptions
                 {
                     Expires = DateTimeOffset.UtcNow.AddHours(1) // Thời gian tồn tại của cookie, có thể thay đổi tùy theo nhu cầu
@@ -69,7 +68,7 @@ namespace DashBoard.Controllers
             }
             if (user.Data != null)
             {
-                HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user.Data));
+                HttpContext.Session.SetInt32("IdUser", user.Data.Id);
                 _notyf.Success("Đăng nhập thành công");
                 Response.Cookies.Delete(username);
                 return RedirectToAction("Index", "Home");
@@ -93,7 +92,19 @@ namespace DashBoard.Controllers
         [HttpPost]
         public ActionResult ForgotPassword(string username, string license)
         {
-            return RedirectToAction("ResetPassword", "Account");
+            var user = _userService.ForgotPassword(username, license);
+            if (user != null)
+            {
+                HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user.Data));
+
+                return RedirectToAction("ResetPassword", "Account");
+            }
+            else
+            {
+                _notyf.Error("Sai thông tin");
+                return View();
+            }
+
         }
 
         [HttpGet]
@@ -110,6 +121,7 @@ namespace DashBoard.Controllers
             if (userData != null) 
             { 
                 passwordDto.IdUser = userData.Id;
+                passwordDto.CurrentPassword = userData.Password;
             }
 
             if (passwordDto.CurrentPassword == null || passwordDto.NewPassword == null || passwordDto.ConfirmPassword == null)
@@ -139,8 +151,48 @@ namespace DashBoard.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult ResetPassword()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(ChangePasswordDto passwordDto)
+        {
+            var userDataJson = HttpContext.Session.GetString("User");
+            var userData = JsonConvert.DeserializeObject<UserLoginDto>(userDataJson);
+
+            if (userData != null)
+            {
+                passwordDto.IdUser = userData.Id;
+                passwordDto.CurrentPassword = userData.Password;
+            }
+
+            if (passwordDto.NewPassword == null || passwordDto.ConfirmPassword == null)
+            {
+                _notyf.Error("Mật khẩu không được là khoảng trắng");
+                return View();
+            }
+
+            if (passwordDto.NewPassword != passwordDto.ConfirmPassword)
+            {
+                _notyf.Error("Mật khẩu nhập lại không đúng");
+                return View();
+            }
+
+            var response = _userService.ChangePassword(passwordDto);
+            if (response.Code == 99)
+            {
+                _notyf.Error("Mật khẩu cũ không đúng");
+                return View();
+            }
+
+            if (response.IsSuccessful)
+            {
+                _notyf.Success("Đổi mật khẩu thành công");
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
     }
