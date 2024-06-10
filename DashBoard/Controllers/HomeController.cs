@@ -1,4 +1,5 @@
-﻿using Dashboard.DataDto.User;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Dashboard.DataDto.User;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -7,10 +8,14 @@ namespace DashBoard.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly INotyfService _notyf;
         private readonly IUsersApiServices _userService;
-        public HomeController(IUsersApiServices userService)
+
+
+        public HomeController(IUsersApiServices userService, INotyfService notyf)
         {
             _userService = userService;
+            _notyf = notyf;
         }
 
         public IActionResult Index()
@@ -19,6 +24,7 @@ namespace DashBoard.Controllers
             if (userDataJson != null)
             {
                 var userData = JsonConvert.DeserializeObject<UserLoginDto>(userDataJson);
+                _notyf.Success("Đăng nhập thành công");
                 return View(userData);
             }
             return View();

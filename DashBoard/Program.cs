@@ -1,3 +1,4 @@
+using AspNetCoreHero.ToastNotification;
 using Dashboard.Common.Configuration;
 using Dashboard.Service.Api.Users;
 
@@ -10,6 +11,13 @@ builder.Services.AddTransient<IUsersApiServices, UsersApiServices>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+builder.Services.AddNotyf(config =>
+{
+    config.DurationInSeconds = 3;
+    config.IsDismissable = true;
+    config.Position = NotyfPosition.TopRight;
+}
+);
 
 var app = builder.Build();
 
