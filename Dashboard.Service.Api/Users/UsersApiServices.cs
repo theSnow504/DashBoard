@@ -81,9 +81,10 @@ namespace Dashboard.Service.Api.Users
             return response;
         }
 
-        public ResponseBase<bool> ForgotPassword(string userName, string License)
+        public ResponseBase<UserLoginDto> ForgotPassword(string userName, string License)
         {
-            var response = Get<bool>("user/forgotpassword"
+            var response = Get<UserLoginDto>("user/forgot-password"
+
                 , new KeyValuePair<string, object>("userName", userName), new KeyValuePair<string, object>("License", License));
             return response;
         }
