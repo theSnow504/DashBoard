@@ -1,4 +1,5 @@
-﻿using Dashboard.Service.Api.Users;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -7,8 +8,10 @@ namespace DashBoard.Controllers
     public class AccountController : Controller
     {
         private readonly IUsersApiServices _userService;
-        public AccountController(IUsersApiServices userService)
+        private readonly INotyfService _notyf;
+        public AccountController(IUsersApiServices userService, INotyfService notyf)
         {
+            _notyf=notyf;
             _userService = userService;
         }
 
@@ -22,13 +25,17 @@ namespace DashBoard.Controllers
         public IActionResult Login(string username, string password)
         {
             var user = _userService.GetUser(username, password);
-            if (user != null)
+            if (user.Data != null)
             {
                 HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user.Data));
                 return RedirectToAction("Index", "Home");
             }
             else
+            {
+                _notyf.Error("Sai tài khoản hoặc mật khẩu");
                 return View();
+            }
+                
         }
 
         public IActionResult Logout()

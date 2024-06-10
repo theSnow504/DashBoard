@@ -25,6 +25,7 @@ namespace DashBoard.Controllers
             {
                 var userData = JsonConvert.DeserializeObject<UserLoginDto>(userDataJson);
                 _notyf.Success("Đăng nhập thành công");
+                
                 return View(userData);
             }
             return View();
