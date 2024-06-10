@@ -5,10 +5,12 @@
             type: 'GET',
             data: { iduser: iduser },
             success: function (data) {
+                console.log('Received data:', data); // Thêm dòng này
                 $('.content-wrapper').html(data);
             }
         });
     }
+
 
     $('#loadFacebook').click(function (e) {
         e.preventDefault();
