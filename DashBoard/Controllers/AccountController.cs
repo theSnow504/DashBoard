@@ -1,4 +1,5 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Dashboard.Common.Enums;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -11,7 +12,7 @@ namespace DashBoard.Controllers
         private readonly INotyfService _notyf;
         public AccountController(IUsersApiServices userService, INotyfService notyf)
         {
-            _notyf=notyf;
+            _notyf = notyf;
             _userService = userService;
         }
 
@@ -25,17 +26,47 @@ namespace DashBoard.Controllers
         public IActionResult Login(string username, string password)
         {
             var user = _userService.GetUser(username, password);
+            CookieOptions options = new CookieOptions()
+            {
+                Expires = DateTime.UtcNow.AddHours(1)
+            };
+            string? Count = Request.Cookies["count"];
+            int count = Count == null ? 0 : int.Parse(Count);
             if (user.Data != null)
             {
+                if (count == 5)
+                {
+                    _notyf.Error("Bạn tạm thời không đăng nhập được vì bạn đã đăng nhập sai quá số lần quy định");
+                    return View();
+                }
+                Response.Cookies.Append("count", "0");
                 HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user.Data));
                 return RedirectToAction("Index", "Home");
             }
-            else
+
+            if (user.Code == (int) StatusLogin.UserNotExisting)
             {
-                _notyf.Error("Sai tài khoản hoặc mật khẩu");
+                _notyf.Error("Sai tài khoản");
                 return View();
             }
-                
+            if (user.Code == (int)StatusLogin.PasswordWrong)
+            {
+                count++;
+                if (count >= 5)
+                {
+                    if (count == 5)
+                    {
+                        Response.Cookies.Append("count", count.ToString(), options);
+                    }
+                    _notyf.Error("Bạn đã nhập sai quá số lần quy định. Vui lòng quay lại sau");
+                    return View();
+                }
+                Response.Cookies.Append("count", count.ToString(), options);
+                _notyf.Error("Mật khẩu không chính xác, bạn còn " + (5 - count) + " lần thử");
+                return View();
+            }
+            _notyf.Error(user.Message);
+            return View();
         }
 
         public IActionResult Logout()
