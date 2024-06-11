@@ -26,7 +26,6 @@ namespace DashBoard.Controllers
         {
             var check = _userService.CheckExitUser(username);
             var user = _userService.GetUser(username, password);
-            var name = username;
             int count = 0;
             var cookieValue = Request.Cookies[username];
             if (cookieValue != null)
@@ -86,7 +85,7 @@ namespace DashBoard.Controllers
         public ActionResult ForgotPassword(string username, string license)
         {
             var user = _userService.ForgotPassword(username, license);
-            if (user != null)
+            if (user.Data != null)
             {
                 HttpContext.Session.SetInt32("IdUser", user.Data.Id);
 
@@ -114,7 +113,6 @@ namespace DashBoard.Controllers
             if (userData != null)
             {
                 passwordDto.IdUser = userData.Data.Id;
-                passwordDto.CurrentPassword = userData.Data.Password;
             }
 
             if (passwordDto.CurrentPassword == null || passwordDto.NewPassword == null || passwordDto.ConfirmPassword == null)
