@@ -1,5 +1,4 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using Dashboard.Common.Enums;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -22,56 +21,59 @@ namespace DashBoard.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Login(string username, string password)
-        {
-            var user = _userService.GetUser(username, password);
-            CookieOptions options = new CookieOptions()
-            {
-                Expires = DateTime.UtcNow.AddHours(1)
-            };
-            string? Count = Request.Cookies["count"];
-            int count = Count == null ? 0 : int.Parse(Count);
-            if (user.Data != null)
-            {
-                if (count == 5)
-                {
-                    _notyf.Error("Bạn tạm thời không đăng nhập được vì bạn đã đăng nhập sai quá số lần quy định");
-                    return View();
-                }
-                Response.Cookies.Append("count", "0");
-                HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user.Data));
-                return RedirectToAction("Index", "Home");
-            }
+ [HttpPost]
+ public IActionResult Login(string username, string password)
+ {
+     var check = _userService.CheckExitUser(username);
+     var user = _userService.GetUser(username, password);
+     var name = username;
+     int count = 0;
+     var cookieValue = Request.Cookies[username];
+     if (cookieValue != null)
+     {
+         count = int.Parse(cookieValue);
+     }
 
-            if (user.Code == (int) StatusLogin.UserNotExisting)
-            {
-                _notyf.Error("Sai tài khoản");
-                return View();
-            }
-            if (user.Code == (int)StatusLogin.PasswordWrong)
-            {
-                count++;
-                if (count >= 5)
-                {
-                    if (count == 5)
-                    {
-                        Response.Cookies.Append("count", count.ToString(), options);
-                    }
-                    _notyf.Error("Bạn đã nhập sai quá số lần quy định. Vui lòng quay lại sau");
-                    return View();
-                }
-                Response.Cookies.Append("count", count.ToString(), options);
-                _notyf.Error("Mật khẩu không chính xác, bạn còn " + (5 - count) + " lần thử");
-                return View();
-            }
-            _notyf.Error(user.Message);
-            return View();
-        }
+     if (check.Data==null)
+     {
+         _notyf.Error("Sai tài khoản");
+         return View();
+     }
+     if(check.Data!=null && user.Data==null)
+     {
+         _notyf.Error("Tài khoản đúng mật khẩu sai");
+         count++;
+         //HttpContext.Session.SetInt32(username, count);
+         Response.Cookies.Append(username, count.ToString(), new CookieOptions
+         {
+             Expires = DateTimeOffset.UtcNow.AddDays(1) // Thời gian tồn tại của cookie, có thể thay đổi tùy theo nhu cầu
+         });
+         if (count<=4)
+         {
+             _notyf.Error("Bạn đã nhập sai "+count+" lần, còn lại "+(5-count)+" lần thử");
+             return View();
+         }
+         else
+         {
+             _notyf.Error("Nhập sai quá số lần quy định, vui lòng thử lại sau");
+             return View();
+         }    
+     }
+     if (user.Data != null)
+     {
+         HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user.Data));
+         //HttpContext.Session.SetInt32(username, 0);
+         Response.Cookies.Delete(username);
+         return RedirectToAction("Index", "Home");
+     }
+     else
+         return View();
+  }
 
         public IActionResult Logout()
         {
-            return View();
+            HttpContext.Session.Clear();
+            return View("Login");
         }
 
         [HttpGet]
@@ -83,7 +85,19 @@ namespace DashBoard.Controllers
         [HttpPost]
         public ActionResult ForgotPassword(string username, string license)
         {
-            return RedirectToAction("ResetPassword", "Account");
+            var user = _userService.ForgotPassword(username, license);
+            if (user != null)
+            {
+                HttpContext.Session.SetInt32("IdUser", user.Data.Id);
+
+                return RedirectToAction("ResetPassword", "Account");
+            }
+            else
+            {
+                _notyf.Error("Sai thông tin");
+                return View();
+            }
+
         }
 
         [HttpGet]
@@ -92,8 +106,86 @@ namespace DashBoard.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordDto passwordDto)
+        {
+            var id = HttpContext.Session.GetInt32("IdUser");
+            var userData = _userService.GetUserById(id);
+            if (userData != null) 
+            { 
+                passwordDto.IdUser = userData.Data.Id;
+                passwordDto.CurrentPassword = userData.Data.Password;
+            }
+
+            if (passwordDto.CurrentPassword == null || passwordDto.NewPassword == null || passwordDto.ConfirmPassword == null)
+            {
+                _notyf.Error("Mật khẩu không được là khoảng trắng");
+                return View();
+            }
+
+            if (passwordDto.NewPassword != passwordDto.ConfirmPassword)
+            {
+                _notyf.Error("Mật khẩu nhập lại không đúng");
+                return View();
+            }
+
+            var response = _userService.ChangePassword(passwordDto);
+            if(response.Code == 99)
+            {
+                _notyf.Error("Mật khẩu cũ không đúng");
+                return View();
+            }
+
+            if(response.IsSuccessful)
+            {
+                _notyf.Success("Đổi mật khẩu thành công");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult ResetPassword()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(ChangePasswordDto passwordDto)
+        {
+            var id = HttpContext.Session.GetInt32("IdUser");
+            var userData = _userService.GetUserById(id);
+
+            if (userData.Data != null)
+            {
+                passwordDto.IdUser = userData.Data.Id;
+                passwordDto.CurrentPassword = userData.Data.Password;
+            }
+
+            if (passwordDto.NewPassword == null || passwordDto.ConfirmPassword == null)
+            {
+                _notyf.Error("Mật khẩu không được là khoảng trắng");
+                return View();
+            }
+
+            if (passwordDto.NewPassword != passwordDto.ConfirmPassword)
+            {
+                _notyf.Error("Mật khẩu nhập lại không đúng");
+                return View();
+            }
+
+            var response = _userService.ChangePassword(passwordDto);
+            if (response.Code == 99)
+            {
+                _notyf.Error("Mật khẩu cũ không đúng");
+                return View();
+            }
+
+            if (response.IsSuccessful)
+            {
+                _notyf.Success("Đổi mật khẩu thành công");
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
     }

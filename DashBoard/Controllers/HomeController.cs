@@ -20,13 +20,11 @@ namespace DashBoard.Controllers
 
         public IActionResult Index()
         {
-            var userDataJson = HttpContext.Session.GetString("User");
-            if (userDataJson != null)
+            var id = HttpContext.Session.GetInt32("IdUser");
+            var user = _userService.GetUserById(id);
+            if (user != null)
             {
-                var userData = JsonConvert.DeserializeObject<UserLoginDto>(userDataJson);
-                _notyf.Success("Đăng nhập thành công");
-                
-                return View(userData);
+                return View(user.Data);
             }
             return View();
         }
