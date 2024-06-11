@@ -1,5 +1,4 @@
 ﻿@using Dashboard.DataDto.User
-
 @model List<AccountDto>
 
 <div class="card">
@@ -9,15 +8,14 @@
             <thead>
                 <tr>
                     <th>Tên tài khoản</th>
-                    <th>Mật khẩu</th>
+                    
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.UserName</td>
-                        <td>@item.Password</td>
+                        <td>@item.UserName</td>                  
                     </tr>
                 }
             </tbody>

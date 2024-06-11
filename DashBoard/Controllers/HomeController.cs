@@ -1,8 +1,6 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using Dashboard.DataDto.User;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace DashBoard.Controllers
 {
@@ -27,6 +25,11 @@ namespace DashBoard.Controllers
                 return View(user.Data);
             }
             return View();
+        }
+
+        public IActionResult LoadDashboardPartial()
+        {
+            return PartialView("_Dashboard");
         }
 
         public IActionResult LoadFacebookPartial(int iduser)
