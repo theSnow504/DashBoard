@@ -2,8 +2,7 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using Dashboard.DataDto.User;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
-
-
+using Newtonsoft.Json;
 namespace DashBoard.Controllers
 {
     public class AccountController : Controller
@@ -12,7 +11,7 @@ namespace DashBoard.Controllers
         private readonly INotyfService _notyf;
         public AccountController(IUsersApiServices userService, INotyfService notyf)
         {
-            _notyf=notyf;
+            _notyf = notyf;
             _userService = userService;
         }
 
@@ -32,46 +31,41 @@ namespace DashBoard.Controllers
             if (cookieValue != null)
             {
                 count = int.Parse(cookieValue);
-
-                if(count>=5)
-                {
-                    _notyf.Error("Tài khoản này tạm thời bị khoá");
-                    return View();
-                }    
             }
-         
-            if (check.Data==null)
+
+            if (check.Data == null)
             {
                 _notyf.Error("Sai tài khoản");
                 return View();
             }
             if (check.Data != null && user.Data == null)
             {
-                _notyf.Error("Mật khẩu không chính xác");
+                _notyf.Error("Tài khoản đúng mật khẩu sai");
                 count++;
+                //HttpContext.Session.SetInt32(username, count);
                 Response.Cookies.Append(username, count.ToString(), new CookieOptions
                 {
-                    Expires = DateTimeOffset.UtcNow.AddHours(1) // Thời gian tồn tại của cookie, có thể thay đổi tùy theo nhu cầu
+                    Expires = DateTimeOffset.UtcNow.AddDays(1) // Thời gian tồn tại của cookie, có thể thay đổi tùy theo nhu cầu
                 });
-                if (count<5)
+                if (count <= 4)
                 {
-                    _notyf.Error("Bạn đã nhập sai "+count+" lần, còn lại "+(5-count)+" lần thử");
+                    _notyf.Error("Bạn đã nhập sai " + count + " lần, còn lại " + (5 - count) + " lần thử");
                     return View();
                 }
                 else
                 {
                     _notyf.Error("Nhập sai quá số lần quy định, vui lòng thử lại sau");
                     return View();
-                }    
+                }
             }
             if (user.Data != null)
             {
-                HttpContext.Session.SetInt32("IdUser", user.Data.Id);
-                _notyf.Success("Đăng nhập thành công");
+                HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user.Data));
+                //HttpContext.Session.SetInt32(username, 0);
                 Response.Cookies.Delete(username);
                 return RedirectToAction("Index", "Home");
             }
-            else 
+            else
                 return View();
         }
 
@@ -116,8 +110,8 @@ namespace DashBoard.Controllers
         {
             var id = HttpContext.Session.GetInt32("IdUser");
             var userData = _userService.GetUserById(id);
-            if (userData != null) 
-            { 
+            if (userData != null)
+            {
                 passwordDto.IdUser = userData.Data.Id;
             }
 
@@ -134,13 +128,13 @@ namespace DashBoard.Controllers
             }
 
             var response = _userService.ChangePassword(passwordDto);
-            if(response.Code == 99)
+            if (response.Code == 99)
             {
                 _notyf.Error("Mật khẩu cũ không đúng");
                 return View();
             }
 
-            if(response.IsSuccessful)
+            if (response.IsSuccessful)
             {
                 _notyf.Success("Đổi mật khẩu thành công");
                 return RedirectToAction("Index", "Home");
