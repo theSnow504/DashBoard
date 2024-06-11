@@ -22,7 +22,7 @@ namespace DashBoard.Controllers
         {
             var id = HttpContext.Session.GetInt32("IdUser");
             var user = _userService.GetUserById(id);
-            if (user != null)
+            if (user.Data != null)
             {
                 return View(user.Data);
             }
