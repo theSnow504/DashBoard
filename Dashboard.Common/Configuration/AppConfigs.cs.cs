@@ -36,7 +36,6 @@ namespace Dashboard.Common.Configuration
         public static string ApiUrlBase { get; set; }
         public static int IdUser { get; set; }
         public static string HardwareId { get; set; } = "";
-
         private static T GetConfigValue<T>(string configKey, T defaultValue)
         {
             var value = defaultValue;
