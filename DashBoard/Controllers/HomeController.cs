@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Dashboard.DataDto.User;
+using Dashboard.Service.Api.Actions;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,12 +11,14 @@ namespace DashBoard.Controllers
     {
         private readonly INotyfService _notyf;
         private readonly IUsersApiServices _userService;
+        private readonly IActionServices _actionService;
 
 
-        public HomeController(IUsersApiServices userService, INotyfService notyf)
+        public HomeController(IUsersApiServices userService, INotyfService notyf,IActionServices actionServices)
         {
             _userService = userService;
             _notyf = notyf;
+            _actionService = actionServices;
         }
 
         public IActionResult Index()
@@ -47,6 +50,11 @@ namespace DashBoard.Controllers
         public IActionResult LoadClientPartial(int iduser)
         {
             var accounts = _userService.GetAccountEverLogin(iduser);
+            return PartialView("_AccountClient", accounts.Data);
+        }
+        public IActionResult GetActionHistory(int iduser)
+        {
+            var accounts = _actionService.GetActionHistory(iduser);
             return PartialView("_AccountClient", accounts.Data);
         }
     }

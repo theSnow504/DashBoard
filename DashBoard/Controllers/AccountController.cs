@@ -4,6 +4,7 @@ using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Reflection.Metadata;
+using System.Web;
 
 namespace DashBoard.Controllers
 {
@@ -71,7 +72,7 @@ namespace DashBoard.Controllers
                 HttpContext.Session.SetInt32("IdUser", user.Data.Id);
                 _notyf.Success("Đăng nhập thành công");
                 Response.Cookies.Delete(username);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home"); 
             }
             else 
                 return View();
@@ -79,6 +80,11 @@ namespace DashBoard.Controllers
 
         public IActionResult Logout()
         {
+            Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Add("Expires", "0");
+
+            HttpContext.Session.Remove("IdUser");
             HttpContext.Session.Clear();
             return View("Login");
         }

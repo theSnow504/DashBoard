@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DashBoard", "DashBoard\Dash
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dashboard.DataDto", "Dashboard.DataDto\Dashboard.DataDto.csproj", "{3D2FEE7A-5862-4A6C-9B79-BE186DE1E598}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard.Service.Api", "Dashboard.Service.Api\Dashboard.Service.Api.csproj", "{73660131-1F21-4DE0-A8DA-C8956C9FC43B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dashboard.Service.Api", "Dashboard.Service.Api\Dashboard.Service.Api.csproj", "{73660131-1F21-4DE0-A8DA-C8956C9FC43B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard.Common", "Dashboard.Common\Dashboard.Common.csproj", "{1D1E5D1B-A927-4BFF-AC48-0EC1F48D4FAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dashboard.Common", "Dashboard.Common\Dashboard.Common.csproj", "{1D1E5D1B-A927-4BFF-AC48-0EC1F48D4FAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
