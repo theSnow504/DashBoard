@@ -1,4 +1,4 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Dashboard.DataDto.Chart;
 using Dashboard.Service.Api.Actions;
 using Dashboard.Service.Api.Users;
@@ -58,11 +58,11 @@ namespace DashBoard.Controllers
             var accounts = _userService.GetAccountEverLogin(iduser);
             return PartialView("_AccountClient", accounts.Data);
         }
-
         public IActionResult LoadActionPartial(int iduser)
         {
             var actions = _actionService.GetActionHistory(iduser);
             return PartialView("_ActionHistory", actions.Data);
+
         }
 
         public ActionResult GetChartData(int iduser)
