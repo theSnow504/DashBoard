@@ -3,7 +3,6 @@ using Dashboard.DataDto.User;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace DashBoard.Controllers
 {
     public class AccountController : Controller
@@ -12,7 +11,7 @@ namespace DashBoard.Controllers
         private readonly INotyfService _notyf;
         public AccountController(IUsersApiServices userService, INotyfService notyf)
         {
-            _notyf=notyf;
+            _notyf = notyf;
             _userService = userService;
         }
 
@@ -102,7 +101,6 @@ namespace DashBoard.Controllers
                 _notyf.Error("Sai thông tin");
                 return View();
             }
-
         }
 
         [HttpGet]

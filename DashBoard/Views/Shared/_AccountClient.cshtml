@@ -1,23 +1,21 @@
 ﻿@using Dashboard.DataDto.User
-
 @model List<AccountDto>
 
 <div class="card">
     <div class="card-body">
         <h4 class="card-title">Danh sách tài khoản khách hàng</h4>
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Tên tài khoản</th>
-                    <th>Mật khẩu</th>
+                    <th><b>Tên tài khoản</b></th>
+                    
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.UserName</td>
-                        <td>@item.Password</td>
+                        <td>@item.UserName</td>                  
                     </tr>
                 }
             </tbody>

@@ -1,5 +1,6 @@
 using AspNetCoreHero.ToastNotification;
 using Dashboard.Common.Configuration;
+using Dashboard.Service.Api.Actions;
 using Dashboard.Service.Api.Users;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IUsersApiServices, UsersApiServices>();
+builder.Services.AddTransient<IActionServices, ActionServices>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
@@ -44,6 +46,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
-
+    pattern: "{controller=Account}/{action=Login}/{id?}"
+);
+    
 app.Run();
