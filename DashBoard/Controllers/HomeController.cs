@@ -20,16 +20,20 @@ namespace DashBoard.Controllers
             _notyf = notyf;
             _actionService = actionServices;
         }
-
+        [ResponseCache(NoStore = true, Duration = 0, VaryByHeader = "none")]
         public IActionResult Index()
         {
             var id = HttpContext.Session.GetInt32("IdUser");
-            var user = _userService.GetUserById(id);
-            if (user != null)
+            if (id !=null)
             {
-                return View(user.Data);
-            }
-            return View();
+                var user = _userService.GetUserById(id);
+                if (user != null)
+                {
+                    return View(user.Data);
+                }
+                return View();
+            } 
+            else return RedirectToAction("Login","Account");
         }
 
         public IActionResult LoadFacebookPartial(int iduser)

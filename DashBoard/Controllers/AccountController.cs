@@ -80,10 +80,6 @@ namespace DashBoard.Controllers
 
         public IActionResult Logout()
         {
-            Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
-            Response.Headers.Add("Pragma", "no-cache");
-            Response.Headers.Add("Expires", "0");
-
             HttpContext.Session.Remove("IdUser");
             HttpContext.Session.Clear();
             return View("Login");

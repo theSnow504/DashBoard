@@ -19,9 +19,6 @@
     <link rel="stylesheet" href="../../assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/favicon.ico" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
 </head>
 <body>
     <div class="container-scroller">
@@ -160,7 +157,7 @@
                         </div>
                     </li>
                     <li class="nav-item nav-logout d-none d-lg-block">
-                        <a class="nav-link" href="/Account/Logout" onclick="ClearHistory()">
+                        <a class="nav-link" href="/Account/Logout">
                             <i class="mdi mdi-power"></i>
                         </a>
                     </li>
@@ -266,16 +263,3 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/js/site.js"></script>
 }
-<script>
-    // window.onunload = function () { };
-    // if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
-    //     location.reload();
-    // }
-
-function ClearHistory()
-{
-     var backlen = history.length;
-     history.go(-backlen);
-     window.location.href = loggedOutPageUrl
-}
-</script>
