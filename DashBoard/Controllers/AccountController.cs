@@ -19,17 +19,19 @@ namespace DashBoard.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(NoStore = true, Duration = 0, VaryByHeader = "none")]
         public ActionResult Login()
         {
+            HttpContext.Session.Clear();
             return View();
         }
 
         [HttpPost]
+        [ResponseCache(NoStore = true, Duration = 0, VaryByHeader = "none")]
         public IActionResult Login(string username, string password)
         {
             var check = _userService.CheckExitUser(username);
             var user = _userService.GetUser(username, password);
-            var name = username;
             int count = 0;
             var cookieValue = Request.Cookies[username];
             if (cookieValue != null)
