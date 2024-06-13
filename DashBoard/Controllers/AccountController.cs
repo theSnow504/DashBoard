@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Reflection.Metadata;
 using System.Web;
 
+
 namespace DashBoard.Controllers
 {
     public class AccountController : Controller
@@ -14,7 +15,7 @@ namespace DashBoard.Controllers
         private readonly INotyfService _notyf;
         public AccountController(IUsersApiServices userService, INotyfService notyf)
         {
-            _notyf=notyf;
+            _notyf = notyf;
             _userService = userService;
         }
 
@@ -97,7 +98,7 @@ namespace DashBoard.Controllers
         public ActionResult ForgotPassword(string username, string license)
         {
             var user = _userService.ForgotPassword(username, license);
-            if (user != null)
+            if (user.Data != null)
             {
                 HttpContext.Session.SetInt32("IdUser", user.Data.Id);
 
@@ -108,7 +109,6 @@ namespace DashBoard.Controllers
                 _notyf.Error("Sai thông tin");
                 return View();
             }
-
         }
 
         [HttpGet]
@@ -125,7 +125,6 @@ namespace DashBoard.Controllers
             if (userData != null) 
             { 
                 passwordDto.IdUser = userData.Data.Id;
-                passwordDto.CurrentPassword = userData.Data.Password;
             }
 
             if (passwordDto.CurrentPassword == null || passwordDto.NewPassword == null || passwordDto.ConfirmPassword == null)

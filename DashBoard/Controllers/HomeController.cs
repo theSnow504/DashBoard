@@ -1,9 +1,8 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Dashboard.DataDto.User;
 using Dashboard.Service.Api.Actions;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace DashBoard.Controllers
 {
@@ -12,8 +11,6 @@ namespace DashBoard.Controllers
         private readonly INotyfService _notyf;
         private readonly IUsersApiServices _userService;
         private readonly IActionServices _actionService;
-
-
         public HomeController(IUsersApiServices userService, INotyfService notyf,IActionServices actionServices)
         {
             _userService = userService;
@@ -24,16 +21,18 @@ namespace DashBoard.Controllers
         public IActionResult Index()
         {
             var id = HttpContext.Session.GetInt32("IdUser");
-            if (id !=null)
+            var user = _userService.GetUserById(id);
+
+            if (user.Data != null)
             {
-                var user = _userService.GetUserById(id);
-                if (user != null)
-                {
-                    return View(user.Data);
-                }
-                return View();
-            } 
-            else return RedirectToAction("Login","Account");
+                return View(user.Data);
+            }
+            else return RedirectToAction("Login", "Account"); 
+        }
+
+        public IActionResult LoadDashboardPartial()
+        {
+            return PartialView("_Dashboard");
         }
 
         public IActionResult LoadFacebookPartial(int iduser)
@@ -56,10 +55,11 @@ namespace DashBoard.Controllers
             var accounts = _userService.GetAccountEverLogin(iduser);
             return PartialView("_AccountClient", accounts.Data);
         }
-        public IActionResult GetActionHistory(int iduser)
+        public IActionResult LoadActionPartial(int iduser)
         {
-            var accounts = _actionService.GetActionHistory(iduser);
-            return PartialView("_AccountClient", accounts.Data);
+            var actions = _actionService.GetActionHistory(iduser);
+            return PartialView("_ActionHistory", actions.Data);
+
         }
     }
 }

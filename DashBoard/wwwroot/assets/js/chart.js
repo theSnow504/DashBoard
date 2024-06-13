@@ -5,7 +5,7 @@ $(function () {
    */
   'use strict';
   var data = {
-    labels: ["2013", "2014", "2014", "2015", "2016", "2017"],
+    labels: ["1", "2", "3", "4", "5", "6"],
     datasets: [{
       label: '# of Votes',
       data: [10, 19, 3, 5, 2, 3],
@@ -30,7 +30,7 @@ $(function () {
     }]
   };
   var dataDark = {
-    labels: ["2013", "2014", "2014", "2015", "2016", "2017"],
+    labels: ["1", "2", "3", "4", "5", "6"],
     datasets: [{
       label: '# of Votes',
       data: [10, 19, 3, 5, 2, 3],
@@ -169,7 +169,7 @@ $(function () {
     }
   };
   var areaData = {
-    labels: ["2013", "2014", "2015", "2016", "2017"],
+    labels: ["2013", "2014", "2015", "2016"],
     datasets: [{
       label: '# of Votes',
       data: [12, 19, 3, 5, 2, 3],
@@ -195,7 +195,7 @@ $(function () {
   };
 
   var areaDataDark = {
-    labels: ["2013", "2014", "2015", "2016", "2017"],
+    labels: ["2013", "2014", "2015", "2016"],
     datasets: [{
       label: '# of Votes',
       data: [12, 19, 3, 5, 2, 3],
