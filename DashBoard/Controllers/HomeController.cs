@@ -1,4 +1,5 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Dashboard.Service.Api.Actions;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,23 +9,26 @@ namespace DashBoard.Controllers
     {
         private readonly INotyfService _notyf;
         private readonly IUsersApiServices _userService;
+        private readonly IActionServices _actionService;
 
-
-        public HomeController(IUsersApiServices userService, INotyfService notyf)
+        public HomeController(IUsersApiServices userService, INotyfService notyf, IActionServices actionService)
         {
             _userService = userService;
             _notyf = notyf;
+            _actionService = actionService;
         }
 
+        [ResponseCache(NoStore = true, Duration = 0, VaryByHeader = "none")]
         public IActionResult Index()
         {
             var id = HttpContext.Session.GetInt32("IdUser");
             var user = _userService.GetUserById(id);
+
             if (user.Data != null)
             {
                 return View(user.Data);
             }
-            return View();
+            else return RedirectToAction("Login", "Account"); 
         }
 
         public IActionResult LoadDashboardPartial()
@@ -51,6 +55,12 @@ namespace DashBoard.Controllers
         {
             var accounts = _userService.GetAccountEverLogin(iduser);
             return PartialView("_AccountClient", accounts.Data);
+        }
+
+        public IActionResult LoadActionPartial(int iduser)
+        {
+            var actions = _actionService.GetActionHistory(iduser);
+            return PartialView("_ActionHistory", actions.Data);
         }
     }
 }

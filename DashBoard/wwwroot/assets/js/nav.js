@@ -48,4 +48,10 @@
         var iduser = $(this).data('iduser');
         loadPartial('LoadClientPartial', iduser);
     });
+
+    $('#loadAction').click(function (e) {
+        e.preventDefault();
+        var iduser = $(this).data('iduser');
+        loadPartial('LoadActionPartial', iduser);
+    });
 });

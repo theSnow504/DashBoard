@@ -1,0 +1,42 @@
+﻿@using Dashboard.DataDto.Action
+@model IEnumerable<ActionDto>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Danh sách tài khoản Facebook</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><b>Tên tài khoản</b></th>
+                    <th><b>Tên hành động</b></th>
+                    <th><b>Thời gian bắt đầu</b></th>
+                    <th><b>Thời gian thực thi</b></th>
+                    <th><b>Kết quả</b></th>
+                    <th><b>Chi tiết</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @for (int i = 0; i < @item.ActionName.Count; i++)
+                    {
+                        <tr>
+                            @if (i == 0)
+                            {
+                                <td rowspan="@item.ActionName.Count">@item.FbUser</td>
+                            }
+                            <td>@item.ActionName[i]</td>
+                            <td>@item.StartTime[i].ToShortDateString()</td>
+                            <td>@item.ExcuteTime[i].ToShortDateString()</td>
+                            @if (i == 0)
+                            {
+                                <td rowspan="@item.ActionName.Count">@item.Result</td>
+                                <td rowspan="@item.ActionName.Count">@item.Description</td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
