@@ -5,10 +5,10 @@ $(function () {
    */
   'use strict';
   var data = {
-    labels: ["1", "2", "3", "4", "5", "6"],
+    labels: ["1", "2", "3", "4", "8", "7"],// list of name want to compare
     datasets: [{
       label: '# of Votes',
-      data: [10, 19, 3, 5, 2, 3],
+      data: [10, 19, 3, 5, 2, 3],// the value of each name
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',

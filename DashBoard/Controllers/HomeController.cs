@@ -1,5 +1,6 @@
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Dashboard.DataDto.User;
+using Dashboard.Service.Api.AccountFbs;
 using Dashboard.Service.Api.Actions;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,13 @@ namespace DashBoard.Controllers
         private readonly INotyfService _notyf;
         private readonly IUsersApiServices _userService;
         private readonly IActionServices _actionService;
-        public HomeController(IUsersApiServices userService, INotyfService notyf,IActionServices actionServices)
+        private readonly IAccountFbsServices _accountFbsService;
+        public HomeController(IUsersApiServices userService, INotyfService notyf,IActionServices actionServices, IAccountFbsServices accountFbsServices)
         {
             _userService = userService;
             _notyf = notyf;
             _actionService = actionServices;
+            _accountFbsService = accountFbsServices;
         }
         [ResponseCache(NoStore = true, Duration = 0, VaryByHeader = "none")]
         public IActionResult Index()
@@ -32,7 +35,8 @@ namespace DashBoard.Controllers
 
         public IActionResult LoadDashboardPartial()
         {
-            return PartialView("_Dashboard");
+            var data = _accountFbsService.TestChart();
+            return PartialView("_Dashboard",data);
         }
 
         public IActionResult LoadFacebookPartial(int iduser)
