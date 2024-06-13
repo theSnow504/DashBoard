@@ -49,26 +49,3 @@
         loadPartial('LoadClientPartial', iduser);
     });
 });
-
-document.addEventListener("DOMContentLoaded", function () {
-    var profileDropdown = document.getElementById("profileDropdown");
-
-    profileDropdown.addEventListener("click", function (event) {
-        event.preventDefault();
-
-        var isExpanded = profileDropdown.getAttribute("aria-expanded") === "true";
-        var dropdownMenu = profileDropdown.nextElementSibling;
-
-        if (isExpanded) {
-            profileDropdown.classList.remove("show");
-            profileDropdown.setAttribute("aria-expanded", "false");
-            dropdownMenu.classList.remove("show");
-            dropdownMenu.removeAttribute("data-bs-popper");
-        } else {
-            profileDropdown.classList.add("show");
-            profileDropdown.setAttribute("aria-expanded", "true");
-            dropdownMenu.classList.add("show");
-            dropdownMenu.setAttribute("data-bs-popper", "none");
-        }
-    });
-});
