@@ -1,7 +1,9 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Dashboard.DataDto.Chart;
 using Dashboard.Service.Api.Actions;
 using Dashboard.Service.Api.Users;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DashBoard.Controllers
 {
@@ -61,6 +63,18 @@ namespace DashBoard.Controllers
         {
             var actions = _actionService.GetActionHistory(iduser);
             return PartialView("_ActionHistory", actions.Data);
+        }
+
+        public ActionResult GetChartData(int iduser)
+        {
+            ChartDto chart = new ChartDto()
+            {
+                Lables = new[] {"123"} ,
+                DataLable = "Test",
+                Datas = new[] {1,2,3}
+            };
+
+            return Json(chart);
         }
     }
 }

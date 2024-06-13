@@ -11,12 +11,12 @@
     }
 
     // Thêm lớp active vào thẻ li khi thẻ a được click
-    $('.nav-item .nav-link').click(function (e) {
+    $('.load-nav .nav-link').click(function (e) {
         e.preventDefault();
         // Xóa lớp active khỏi tất cả các thẻ li
-        $('.nav-item').removeClass('active');
+        $('.load-nav').removeClass('active');
         // Thêm lớp active vào thẻ li chứa thẻ a được click
-        $(this).closest('.nav-item').addClass('active');
+        $(this).closest('.load-nav').addClass('active');
     });
 
     $('#loadDashboard').click(function (e) {
