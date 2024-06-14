@@ -6,6 +6,6 @@ namespace Dashboard.Service.Api.Actions
 {
     public interface IActionServices
     {
-        public ResponseBase<List<ActionDto>> GetActionHistory(int idUser);
+        public ResponseBase<List<ActionDto>> GetActionHistory(int idUser, DateTime? start, DateTime? end);
     }
 }

@@ -1,5 +1,5 @@
-﻿@using Dashboard.DataDto.AccountFb
-@model List<TestChartFbDto>
+﻿@* @using Dashboard.DataDto.AccountFb
+@model List<TestChartFbDto> *@
 <div class="page-header">
     <h3 class="page-title">
         <span class="page-title-icon bg-gradient-primary text-white me-2">
@@ -62,7 +62,7 @@
                 </div>
                 <canvas id="visit-sale-chart" class="mt-4"></canvas>
                 <canvas id="barChart" style="height: 185px; display: block; width: 371px;" width="371" height="185" class="chartjs-render-monitor"></canvas>
-                @section Scripts {
+               @*  @section Scripts {
                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                     <script>
                         var ctx = document.getElementById('barChart').getContext('2d');
@@ -88,7 +88,7 @@
                             }
                         });
                     </script>
-                }
+                } *@
             </div>
         </div>
     </div>

@@ -1,5 +1,4 @@
 using AspNetCoreHero.ToastNotification.Abstractions;
-using Dashboard.DataDto.User;
 using Dashboard.Service.Api.AccountFbs;
 using Dashboard.Service.Api.Actions;
 using Dashboard.Service.Api.Users;
@@ -13,7 +12,7 @@ namespace DashBoard.Controllers
         private readonly IUsersApiServices _userService;
         private readonly IActionServices _actionService;
         private readonly IAccountFbsServices _accountFbsService;
-        public HomeController(IUsersApiServices userService, INotyfService notyf,IActionServices actionServices, IAccountFbsServices accountFbsServices)
+        public HomeController(IUsersApiServices userService, INotyfService notyf, IActionServices actionServices, IAccountFbsServices accountFbsServices)
         {
             _userService = userService;
             _notyf = notyf;
@@ -30,13 +29,13 @@ namespace DashBoard.Controllers
             {
                 return View(user.Data);
             }
-            else return RedirectToAction("Login", "Account"); 
+            else return RedirectToAction("Login", "Account");
         }
 
         public IActionResult LoadDashboardPartial()
         {
             var data = _accountFbsService.TestChart();
-            return PartialView("_Dashboard",data);
+            return PartialView("_Dashboard");
         }
 
         public IActionResult LoadFacebookPartial(int iduser)
@@ -59,9 +58,9 @@ namespace DashBoard.Controllers
             var accounts = _userService.GetAccountEverLogin(iduser);
             return PartialView("_AccountClient", accounts.Data);
         }
-        public IActionResult LoadActionPartial(int iduser)
+        public IActionResult LoadActionPartial(int iduser, DateTime? start, DateTime? end)
         {
-            var actions = _actionService.GetActionHistory(iduser);
+            var actions = _actionService.GetActionHistory(iduser, start, end);
             return PartialView("_ActionHistory", actions.Data);
 
         }
