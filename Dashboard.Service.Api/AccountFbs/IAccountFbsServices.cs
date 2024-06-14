@@ -11,7 +11,7 @@ namespace Dashboard.Service.Api.AccountFbs
 {
     public interface IAccountFbsServices
     {
-        public ResponseBase<List<TestChartFbDto>> TestChart();
+        public ResponseBase<TestChartFbDto> TestChart();
         
     }
 }

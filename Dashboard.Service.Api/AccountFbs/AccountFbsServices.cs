@@ -11,9 +11,9 @@ namespace Dashboard.Service.Api.AccountFbs
 {
     public class AccountFbsServices : ApiServiceBase, IAccountFbsServices
     {
-        public ResponseBase<List<TestChartFbDto>> TestChart()
+        public ResponseBase<TestChartFbDto> TestChart()
         {
-            var response = Get<List<TestChartFbDto>>("AccountFb/test-chart");
+            var response = Get<TestChartFbDto>("AccountFb/test-chart");
             return response;
         }
     }
